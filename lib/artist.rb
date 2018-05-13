@@ -6,11 +6,20 @@ class Artist
   def initialize(name)
     @name = name
     @songs = []
-    self.save
+  end
+  
+  def self.all
+    @@all
   end
   
   def save
     @@all << self
+  end
+  
+  def self.create(name)
+    artist = self.new(name)
+    artist.save
+    artist
   end
   
   def add_song(song)
@@ -23,14 +32,10 @@ class Artist
   end
   
   def self.find_or_create_by_name(artist_name)
-    self.find_by_name(artist_name) || self.new(artist_name)
+    self.find_by_name(artist_name) ? self.find_by_name(artist_name) : self.create(artist_name)
   end
   
   def print_songs
     @songs.each{ |song| puts song.name }
-  end
-  
-  def self.all
-    @@all
   end
 end
